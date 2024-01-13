@@ -62,7 +62,7 @@ namespace ClosedXML.Excel
         {
             if (!_dataValidations.Remove(dataValidation))
                 return;
-            var xlDataValidation = (XLDataValidation) dataValidation;
+            var xlDataValidation = (XLDataValidation)dataValidation;
             xlDataValidation.RangeAdded -= OnRangeAdded;
             xlDataValidation.RangeRemoved -= OnRangeRemoved;
 
@@ -207,12 +207,13 @@ namespace ClosedXML.Excel
             }
         }
 
-        private void OnRangeAdded(object sender, RangeEventArgs e)
+        private void OnRangeAdded(object? sender, RangeEventArgs e)
         {
-            ProcessRangeAdded(e.Range, (XLDataValidation) sender, skipIntersectionCheck: false);
+            if (sender is XLDataValidation xlDataValidation)
+                ProcessRangeAdded(e.Range, xlDataValidation, skipIntersectionCheck: false);
         }
 
-        private void OnRangeRemoved(object sender, RangeEventArgs e)
+        private void OnRangeRemoved(object? sender, RangeEventArgs e)
         {
             ProcessRangeRemoved(e.Range);
         }

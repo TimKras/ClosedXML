@@ -35,9 +35,16 @@ namespace ClosedXML.Examples
             ws.Cell("D6").Value = false;
             //Date of Birth
             ws.Cell("E3").Value = "DOB";
+
+#if NET6_0_OR_GREATER
+            ws.Cell("E4").Value = new DateOnly(1919, 1, 21);
+            ws.Cell("E5").Value = new DateOnly(1907, 3, 4);
+            ws.Cell("E6").Value = new DateOnly(1921, 12, 15);
+#else
             ws.Cell("E4").Value = new DateTime(1919, 1, 21);
             ws.Cell("E5").Value = new DateTime(1907, 3, 4);
             ws.Cell("E6").Value = new DateTime(1921, 12, 15);
+#endif
             //Income
             ws.Cell("F3").Value = "Income";
             ws.Cell("F4").Value = 2000;

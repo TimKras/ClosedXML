@@ -19,7 +19,11 @@ namespace ClosedXML.Excel
     /// </list>
     /// </summary>
     [DebuggerDisplay("{Type} {_text != null ? (object)_text : (object)_value}")]
+#if NET6_0_OR_GREATER
+    public readonly struct XLCellValue : IEquatable<XLCellValue>, IEquatable<Blank>, IEquatable<Boolean>, IEquatable<Double>, IEquatable<String>, IEquatable<XLError>, IEquatable<DateTime>, IEquatable<TimeSpan>, IEquatable<DateOnly>, IEquatable<TimeOnly>, IEquatable<int>
+#else
     public readonly struct XLCellValue : IEquatable<XLCellValue>, IEquatable<Blank>, IEquatable<Boolean>, IEquatable<Double>, IEquatable<String>, IEquatable<XLError>, IEquatable<DateTime>, IEquatable<TimeSpan>, IEquatable<int>
+#endif
     {
         private readonly double _value;
         private readonly string _text;
@@ -261,9 +265,7 @@ namespace ClosedXML.Excel
             // AutoFilter custom filter operand can be stored as `1 1/2` and Excel correctly
             // interprets it as a `1.5`. Same for 2015-01-01, therefore use `TextToNumber` that
             // should deal with any weird formats.
-            if (text is null)
-                return Blank.Value;
-            if (text == String.Empty)
+            if (string.IsNullOrEmpty(text))
                 return Blank.Value;
             if (StringComparer.OrdinalIgnoreCase.Equals("TRUE", text))
                 return true;
